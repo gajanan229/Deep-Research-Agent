@@ -6,7 +6,7 @@ The **Deep Research Agent** is a professional AI-driven system designed to condu
 ## 🚀 Project Phases
 This project is organized into four distinct phases. The current status is tracked below:
 
-- [ ] **Phase 1: Research**
+- [x] **Phase 1: Research**
   - Gathering papers, articles, and domain knowledge.
   - *Location:* `/research`
 - [ ] **Phase 2: Experimentation**
