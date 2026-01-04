@@ -1,9 +1,9 @@
 # Experimental Roadmap: Validating Deep Research Paradigms
 
-**Date:** January 3, 2026 (Updated)  
+**Date:** January 4, 2026 (Updated)  
 **Document Type:** Experimentation Strategy  
 **Phase:** Proof-of-Concept Validation  
-**Version:** 2.0 (Aligned with Feasibility Report V2.0)
+**Version:** 2.1 (Updated with Dataset V2.0)
 
 ---
 
@@ -18,6 +18,25 @@ This document outlines a systematic experimental strategy to validate the Tier 1
 - **Tier 2 (Partially Validated):** GNWT/OWL Router, Neuro-Symbolic KG Core
 
 **Scope:** 10 Jupyter Notebook experiments (added Experience Store).
+
+### Technology Stack (Locked)
+
+| Component | Specification | Notes |
+|-----------|--------------|-------|
+| **LLM Model** | `gpt-5-mini-2025-08-07` | Default GPT-5 mini. Used for ALL agents including baselines. |
+| **Web Search** | Tavily API | Via `TAVILY_API_KEY` in `experimentation/.env` |
+| **Tracing/Eval** | LangSmith | Via `LANGSMITH_API_KEY`, project: `deep_research_new` |
+| **Framework** | LangGraph | State machine orchestration |
+| **Python** | 3.11+ | Required for LangGraph features |
+
+**Environment Configuration (`experimentation/.env`):**
+```
+TAVILY_API_KEY=       # Web search API
+OPENAI_API_KEY=       # LLM API key (gpt-5-mini-2025-08-07)
+LANGSMITH_API_KEY=    # Tracing and evaluation
+LANGSMITH_TRACING=true
+LANGSMITH_PROJECT=deep_research_new
+```
 
 ---
 
@@ -105,44 +124,48 @@ For each experiment, we compare the paradigm-enhanced agent against both baselin
 
 **The Contamination Problem:** If we ask "What is the capital of France?", the model answers from memory, not from research capability. Even questions like "What was the closing price of NVIDIA stock on December 30, 2025?" can be answered by a small LLM with a single web search API call.
 
-**The Deep Research Threshold:** Questions must require:
-- Multiple search iterations (not solvable in one query)
-- Cross-source synthesis (combining information from 3+ sources)
-- Reasoning beyond retrieval (analysis, comparison, or causal inference)
-- Structured output (not just a single fact or number)
+**The Deep Research Threshold (V2.0 - Enhanced):** Questions must require:
+- **10-20+ sources** for comprehensive answers (not solvable with 1-3 searches)
+- **Multi-step reasoning** in BOTH information gathering AND synthesis/insight discovery
+- **Cross-domain synthesis** (combining information across different fields)
+- **Causal chain analysis** (tracing impacts across multiple domains)
+- **Insight generation** beyond fact compilation
 
 **Contamination Check:**
-Before including any question in our test set, we test it against Gemini Flash or GPT-4o-mini with a basic web search tool. If the small model answers correctly with a single search, the question is too easy and must be excluded or made more complex.
+Before including any question in our test set, we test it against Gemini Flash or GPT-4o-mini with a basic web search tool. If the small model answers correctly with a single search, the question is too easy and must be excluded or made more complex. Google's AI Overview should NOT be able to answer these questions adequately.
 
 ---
 
 ## Part II: Test Data Design
 
+> **Dataset Version:** 2.0 (January 4, 2026)
+> **File:** `data/deep_research_agent_test_dataset.yaml`
+
 ### 2.1 Question Taxonomy
 
-Deep research questions must be unsolvable by a simple web search. Each question should require multiple sources, synthesis, and often causal or comparative reasoning.
+Deep research questions must be unsolvable by a simple web search or Google AI Overview. Each question requires **10-20+ sources**, **cross-domain synthesis**, and **multi-step reasoning** in both information gathering and insight discovery.
 
-| Category | Requirements | Example Question |
-|----------|--------------|------------------|
-| **Comparative Analysis** | Compare 2+ entities across multiple dimensions, explain differences | "Compare the climate policies of Canada, Australia, and Germany since 2020. Which country made the most progress toward emissions targets? What specific legislation drove the changes?" |
-| **Causal Investigation** | Identify root causes of an observed phenomenon with evidence | "Why did the Boeing 737 MAX remain grounded longer in Europe than in the US after the 2019 crashes? Trace the regulatory decisions, their stated justifications, and any political factors." |
-| **Trend Synthesis** | Track changes over time across multiple data points, explain patterns | "How has the average cost per kWh of lithium-ion batteries changed from 2015 to 2025? What technological breakthroughs and market forces drove the price decline?" |
-| **Contradiction Resolution** | Find conflicting claims, present evidence for each side, explain discrepancy | "Some studies claim remote work increases productivity while others claim it decreases it. Summarize the evidence on both sides, identify what variables explain the discrepancy, and state which conditions favor each outcome." |
-| **Comprehensive Enumeration** | List all instances of something scattered across many sources | "List all major AI regulation bills proposed in the US Congress between 2023 and 2025. For each bill, provide: sponsor, current status, key provisions, and any notable opposition." |
-| **Multi-Hop Causal Chain** | Trace a causal chain across 3+ steps with evidence at each step | "How did the 2021 Suez Canal blockage affect semiconductor prices in the automotive industry? Trace the supply chain from the canal to car manufacturers, identifying each bottleneck." |
+| Category | Requirements | Minimum Sources | Example Domain |
+|----------|--------------|-----------------|----------------|
+| **Multi-Hop Causal Chain** | Trace causal chains across 3+ steps with evidence at each step, spanning multiple domains | 12-18 | Pharmaceutical supply chains, shipping disruptions |
+| **Trend Synthesis** | Track changes over time across multiple data points, synthesize patterns from diverse sources | 12-14 | Water scarcity, biodiversity loss, grid modernization |
+| **Comparative Analysis** | Compare entities across multiple dimensions with cross-domain evidence | 12-16 | Critical minerals policies, CBDC implementations |
+| **Causal Investigation** | Identify root causes of phenomena with evidence from multiple fields | 12-15 | Housing affordability, biosecurity risks |
+| **Contradiction Resolution** | Find conflicting claims, present evidence, explain why "obvious" answer may be incomplete | 12-14 | Food security paradoxes, AI safety frameworks |
+| **Comprehensive Enumeration** | List instances scattered across many sources with synthesis of patterns | 12-14 | AMR mortality projections, space debris statistics |
 
 **Paradigms Stressed by Question Type:**
 
 | Question Type | Primary Paradigms Tested |
 |---------------|-------------------------|
-| Comparative Analysis | Iterative Refinement, Quality Gates |
-| Causal Investigation | GNWT Router (pivoting), Neuro-Symbolic (entity tracking) |
-| Trend Synthesis | Agile Sprints (iterative data gathering) |
+| Multi-Hop Causal Chain | GNWT Router (pivoting), Neuro-Symbolic (entity tracking), Agile Sprints |
+| Trend Synthesis | Agile Sprints (iterative data gathering), Quality Gates |
+| Comparative Analysis | Quality Gates, Iterative Refinement, Agile Sprints |
+| Causal Investigation | GNWT Router, Quality Gates, Neuro-Symbolic |
 | Contradiction Resolution | Quality Gates, Iterative Refinement |
-| Comprehensive Enumeration | Agile Sprints (completeness checking) |
-| Multi-Hop Causal Chain | Neuro-Symbolic (relationship tracking), GNWT Router |
+| Comprehensive Enumeration | Agile Sprints (completeness checking), Quality Gates |
 
-### 2.2 Golden Dataset Construction
+### 2.2 Golden Dataset Construction (V2.0)
 
 **Size:** 20 questions total (5 per difficulty tier)
 
@@ -151,20 +174,22 @@ This is deliberately small to minimize API costs while providing statistical sig
 **Statistical Validity via Monte Carlo Runs:**
 With only 20 questions, a single API timeout or bad LLM roll would skew results by 5%. To smooth out variance, each question is run **3 times per configuration** (Monte Carlo method). We report the **average** of these 3 runs, not any single run. This gives us 60 data points per experiment, providing reasonable statistical confidence without excessive cost.
 
-**Difficulty Tiers:**
+**Difficulty Tiers (Updated for V2.0):**
 
-| Tier | Questions | Expected Baseline Performance |
-|------|-----------|------------------------------|
-| **Easy** | 5 | 80-90% correct |
-| **Medium** | 5 | 60-80% correct |
-| **Hard** | 5 | 20-40% correct |
-| **Adversarial** | 5 | 0-20% correct |
+| Tier | Questions | Expected Baseline Performance | Min Sources |
+|------|-----------|------------------------------|-------------|
+| **Easy** | 5 | 60-80% correct | 10-12 |
+| **Medium** | 5 | 45-65% correct | 12-14 |
+| **Hard** | 5 | 25-45% correct | 14-16 |
+| **Adversarial** | 5 | 10-30% correct | 12-14 |
+
+> **Note:** Expected baseline performance is LOWER than V1.0 because questions now require 10-20+ sources and cross-domain synthesis. "Easy" in V2.0 would be "Hard" in typical benchmarks.
 
 **Adversarial Questions:** Designed to expose specific failure modes:
-- Questions where the obvious answer is wrong (tests hallucination resistance)
-- Questions requiring synthesis across paywalled and open sources (tests graceful degradation)
-- Questions with actively contradictory sources online (tests conflict resolution)
-- Questions requiring causal chains of 4+ steps across different domains
+- Questions where the "obvious" answer is incomplete (explicit `adversarial_trap` field)
+- Questions testing whether policies match outcomes (not just policy announcements)
+- Questions with actively contradictory narratives that require resolution
+- Questions requiring systems-level thinking across interconnected crises
 
 ### 2.3 Golden Answer Construction (Silver Dataset Method)
 
@@ -177,36 +202,66 @@ Writing golden answers from scratch is tedious and error-prone. We use a **Silve
 
 This cuts golden dataset creation time significantly while maintaining accuracy.
 
-**Per-Question Structure:**
-
-**Example Entry:**
+**Per-Question Structure (V2.0):**
 
 ```yaml
-question_id: Q07
-question: "Compare the stock performance of Walmart (WMT) and Target (TGT) over Q4 2025. 
-          If there was a significant divergence, identify what company decisions, market 
-          conditions, or external events caused the performance difference."
-difficulty: hard
-category: comparative_analysis
+question_id: "E01"
+question: |
+  The global pharmaceutical supply chain experienced significant stress in 2024-2025, 
+  with persistent drug shortages affecting multiple countries. Analyze the interconnected 
+  causes of these shortages by examining:
+  
+  1. The geographic concentration of Active Pharmaceutical Ingredient (API) manufacturing 
+  2. How geopolitical tensions and trade policies affected specific drug categories
+  3. The role of climate events in disrupting production
+  4. Why generic injectable drugs and antibiotics are disproportionately affected
+  5. What structural economic factors discourage pharmaceutical companies from investing 
+     in robust supply chains for essential medicines
+difficulty: easy
+category: multi_hop_causal_chain
+paradigms_tested:
+  - gnwt_router
+  - neuro_symbolic
+  - agile_sprints
 required_facts:
-  - "WMT stock price movement in Q4 2025 with specific percentages"
-  - "TGT stock price movement in Q4 2025 with specific percentages"
-  - "At least one earnings report reference for each company"
-  - "Identification of divergence point (if any) with date"
-  - "Causal explanation with evidence (e.g., earnings miss, guidance change, macro event)"
+  - "65-70% of APIs globally sourced from China and India as of 2025"
+  - "India holds 48% of active API Drug Master Files (DMFs) in 2023"
+  - "270 active drug shortages in US as of April 2025"
+  - "Hurricanes destroyed 37% of Puerto Rico's pharmaceutical output in 2024"
+  - "US-China biotech decoupling banned 48 critical excipients from Chinese suppliers"
+  - "Sterile injectables particularly vulnerable due to complex manufacturing and low profitability"
 acceptable_structures:
-  - "Side-by-side comparison with data"
-  - "Timeline of events affecting each stock"
-  - "Causal narrative linking events to price movements"
+  - "Causal chain analysis linking geographic concentration → policy impacts → climate vulnerability → structural economics"
+  - "Multi-factor analysis with quantified impacts for each contributing cause"
 common_errors:
-  - "Stating prices without explaining divergence"
-  - "Citing only one source per company"
-  - "Confusing correlation with causation"
-minimum_sources: 4
-notes: "Tests comparative analysis with causal reasoning. Requires financial data + news synthesis."
+  - "Treating shortages as simple supply-demand mismatch without analyzing structural causes"
+  - "Missing the interaction between geopolitical and climate factors"
+  - "Not distinguishing between different drug categories and their unique vulnerabilities"
+minimum_sources: 12
+notes: "Tests multi-hop causal reasoning across geopolitics, climate, and economics."
 ```
 
-### 2.4 Dataset Sources
+### 2.4 Topic Diversity Matrix (V2.0)
+
+The V2.0 dataset deliberately avoids topic concentration. Previous versions over-indexed on AI and battery technology. The new dataset covers 11 distinct domains with minimal overlap:
+
+| Domain | Questions | Example Topics |
+|--------|-----------|----------------|
+| **Pharmaceuticals/Health** | E01, E05, H04 | API supply chains, drug shortages, AMR |
+| **Water/Climate** | E02, M04 | Groundwater depletion, agricultural water, conflict |
+| **Critical Minerals** | E03, H05 | Rare earths, processing concentration, energy transition |
+| **Shipping/Logistics** | E04 | Red Sea crisis, Panama Canal, freight rates |
+| **Energy/Grid** | M01, H05 | Grid modernization, data centers, renewables |
+| **Biodiversity** | M02 | Wildlife decline, pollinators, ecosystem tipping points |
+| **Housing/Urban** | M03 | Affordability, construction costs, zoning |
+| **Food Security** | M04, A04 | Grain exports, fertilizer prices, famine |
+| **Space/Technology** | M05, A03 | Orbital debris, Kessler syndrome, satellite constellations |
+| **Biosecurity** | H01 | Synthetic biology, AI convergence, DNA synthesis |
+| **Digital Finance** | H02, A02 | CBDCs, cross-border payments, financial inclusion |
+| **Systems Integration** | H03 | Interconnected crises, feedback loops |
+| **AI Governance** | A05 | Safety frameworks, commitment tracking |
+
+### 2.5 Dataset Sources
 
 > **Scientific Rigor Note:** We deliberately avoid using existing benchmarks (HotpotQA, GAIA, etc.) during experimentation. These benchmarks may be contaminated in LLM training data, and optimizing for them would violate train/test separation principles. Standard benchmarks are reserved for final product evaluation only.
 
@@ -214,10 +269,10 @@ notes: "Tests comparative analysis with causal reasoning. Requires financial dat
 
 | Source | Purpose | Rationale |
 |--------|---------|-----------|
-| **Custom Time-Sensitive** | Questions about recent events (2025-2026) | Cannot be memorized; forces real retrieval |
-| **Custom Multi-Hop** | Questions requiring 3+ source synthesis | Tests architecture, not model memory |
-| **Custom Adversarial** | Questions with common misconceptions | Tests hallucination resistance |
-| **Custom Domain-Specific** | Finance, legal, scientific questions | Tests depth across domains |
+| **Custom Time-Sensitive** | Questions about recent events (2024-2026) | Cannot be memorized; forces real retrieval |
+| **Custom Cross-Domain** | Questions requiring 10-20+ source synthesis | Tests architecture, not model memory |
+| **Custom Adversarial** | Questions with explicit "traps" | Tests resistance to obvious-but-incomplete answers |
+| **Custom Systems-Level** | Questions connecting multiple domains | Tests ability to trace cascading impacts |
 
 **Final Product Validation (Held-Out):**
 
@@ -478,7 +533,7 @@ The existing notebooks in `baseline agent 2/` contain scattered implementations.
 **Purpose:** Test the impact of time-boxed iteration with retrospectives
 
 **Contents:**
-- Implement sprint loop (3 sprints of 5 iterations each)
+- Implement sprint loop
 - Add retrospective node that re-prioritizes questions
 - Compare: Baseline A vs. Baseline B vs. Agile-enhanced
 - Measure: Does iteration improve recall? At what cost?
@@ -811,8 +866,7 @@ experimentation/
 |   |-- 10_Full_Stack.ipynb              # Phase 5: Final integration
 |
 |-- data/
-|   |-- golden_questions.yaml            # Custom questions (NOT benchmarks)
-|   |-- golden_answers.yaml
+|   |-- deep_research_agent_test_dataset.yaml  # V2.0 unified dataset (questions + answers + evaluation criteria)
 |   |-- case_bank/
 |   |   |-- cases.json
 |
@@ -829,35 +883,51 @@ experimentation/
 
 ---
 
-## Appendix B: Golden Dataset Template
+## Appendix B: Golden Dataset Examples (V2.0)
 
+The V2.0 dataset is located at `data/deep_research_agent_test_dataset.yaml`. Below are representative examples from each difficulty tier:
+
+**Easy Tier Example:** (Requires 12+ sources)
 ```yaml
-# golden_questions.yaml
-
-questions:
-  - id: Q01
-    text: "What is the current population of Iceland according to the most recent data?"
-    category: simple_fact
-    difficulty: easy
-    required_facts:
-      - "Population is approximately 380,000-390,000"
-      - "Data is from 2024 or later"
-    minimum_sources: 1
-    notes: "Tests basic retrieval. Baseline should pass."
-
-  - id: Q02
-    text: "List all countries that have completely banned TikTok for all citizens as of January 2025"
-    category: comprehensive_list
-    difficulty: medium
-    required_facts:
-      - "India"
-      - "Afghanistan"
-      - "Pakistan (partial)"
-    minimum_sources: 2
-    notes: "Tests comprehensiveness. Agent should find ALL bans, not just first result."
-
-  # ... continue for all 20 questions
+question_id: "E01"
+question: |
+  The global pharmaceutical supply chain experienced significant stress in 2024-2025. 
+  Analyze the interconnected causes by examining:
+  1. Geographic concentration of API manufacturing (quantify China/India shares)
+  2. How geopolitical tensions affected specific drug categories
+  3. The role of climate events in disrupting production
+  4. Why generic injectables are disproportionately affected
+  5. Structural economic factors discouraging supply chain investment
+difficulty: easy
+category: multi_hop_causal_chain
+minimum_sources: 12
+notes: "Tests multi-hop causal reasoning across geopolitics, climate, and economics."
 ```
+
+**Adversarial Tier Example:** (Tests for "obvious but wrong" answers)
+```yaml
+question_id: "A04"
+question: |
+  Global food commodity markets are projected to be stable in 2024/25 with adequate 
+  supplies. Yet acute food insecurity is at record levels. Analyze this disconnect:
+  1. The difference between global aggregate supply and regional/local access
+  2. How commodity price stability can coexist with food insecurity increases
+  3. Why famine conditions exist in places where food is available nearby
+  4. The limitations of market-based approaches to food security
+difficulty: adversarial
+category: contradiction_resolution
+minimum_sources: 12
+adversarial_trap: "The framing of 'stable markets' creates false reassurance while 
+                   access-based food insecurity worsens"
+notes: "Tests critical evaluation of market-based food security assumptions."
+```
+
+> **Key V2.0 Changes:**
+> - All questions require 10-20+ sources (vs. 3-4 in V1.0)
+> - Topics diversified across 11 domains (vs. AI/battery concentration in V1.0)
+> - Adversarial questions include explicit `adversarial_trap` fields
+> - Added `insight_generation` evaluation criterion (10% weight)
+> - Adjusted difficulty expectations to reflect increased complexity
 
 ---
 

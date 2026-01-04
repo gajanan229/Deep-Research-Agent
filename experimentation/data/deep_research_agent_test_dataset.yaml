@@ -1,0 +1,1197 @@
+# Deep Research Agent Test Dataset
+# Version: 2.0
+# Created: January 4, 2026
+# Purpose: Validation dataset for experimental deep research paradigms
+# 
+# Design Principles:
+# - Questions require 10-20+ sources to answer comprehensively
+# - Multi-step reasoning in BOTH information gathering AND synthesis/insight discovery
+# - Diverse topic coverage with minimal overlap between questions
+# - Questions unsolvable by simple LLM + single web search (Google AI Overview test)
+# - Cross-domain synthesis and causal chain analysis required
+#
+# Dataset Properties:
+# - 20 questions total (5 per difficulty tier)
+# - Each question spans multiple domains and requires multi-hop reasoning
+# - Topics deliberately diversified: pharmaceuticals, water, minerals, shipping,
+#   antibiotics, energy, biodiversity, housing, food, space, biosecurity, CBDCs
+
+metadata:
+  version: "2.0"
+  created_date: "2026-01-04"
+  total_questions: 20
+  monte_carlo_runs: 3
+  evaluation_method: "silver_dataset"
+  contamination_check_model: "gemini-flash or gpt-4o-mini with single web search"
+  minimum_sources_per_question: 10
+  design_philosophy: "Questions require synthesis across 10-20+ sources, multi-step reasoning chains, and insight discovery beyond simple fact retrieval"
+
+# =============================================================================
+# TIER 1: EASY (5 questions)
+# Expected Baseline Performance: 60-80% correct
+# Characteristics: Clear structure but requires synthesis across multiple domains
+# =============================================================================
+
+questions:
+  # -------------------------------------------------------------------------
+  # EASY TIER
+  # -------------------------------------------------------------------------
+  
+  - question_id: "E01"
+    question: |
+      The global pharmaceutical supply chain experienced significant stress in 2024-2025, 
+      with persistent drug shortages affecting multiple countries. Analyze the interconnected 
+      causes of these shortages by examining:
+      
+      1. The geographic concentration of Active Pharmaceutical Ingredient (API) manufacturing 
+         (quantify the shares held by China and India)
+      2. How geopolitical tensions and trade policies (US-China decoupling, export restrictions) 
+         affected specific drug categories
+      3. The role of climate events (hurricanes, extreme weather) in disrupting production
+      4. Why generic injectable drugs and antibiotics are disproportionately affected
+      5. What structural economic factors discourage pharmaceutical companies from investing 
+         in robust supply chains for essential medicines
+      
+      Provide specific examples of drugs affected and quantify the scope of shortages 
+      (number of active shortages, duration, regional variations).
+    difficulty: easy
+    category: multi_hop_causal_chain
+    paradigms_tested:
+      - gnwt_router
+      - neuro_symbolic
+      - agile_sprints
+    required_facts:
+      - "65-70% of APIs globally sourced from China and India as of 2025"
+      - "India holds 48% of active API Drug Master Files (DMFs) in 2023"
+      - "China's API DMF filings increased 63% between 2021-2023"
+      - "US has only 9% of active API DMFs; EU countries 17%"
+      - "270 active drug shortages in US as of April 2025"
+      - "40%+ of US drug shortages started in 2022 or earlier; 89% carried over from 2023"
+      - "Hurricanes destroyed 37% of Puerto Rico's pharmaceutical output in 2024"
+      - "40% increase in Atlantic storm intensity projected for 2025"
+      - "US-China biotech decoupling banned 48 critical excipients from Chinese suppliers"
+      - "92 generic drugs potentially impacted by excipient ban"
+      - "Sterile injectables particularly vulnerable due to complex manufacturing and low profitability"
+      - "30% of shortages linked to raw material/API scarcity"
+      - "Low profitability of generic drugs discourages investment in supply chain robustness"
+    acceptable_structures:
+      - "Causal chain analysis linking geographic concentration → policy impacts → climate vulnerability → structural economics"
+      - "Multi-factor analysis with quantified impacts for each contributing cause"
+    common_errors:
+      - "Treating shortages as simple supply-demand mismatch without analyzing structural causes"
+      - "Missing the interaction between geopolitical and climate factors"
+      - "Not distinguishing between different drug categories and their unique vulnerabilities"
+      - "Failing to connect API concentration to the downstream impacts on finished drugs"
+    minimum_sources: 12
+    notes: "Tests multi-hop causal reasoning across geopolitics, climate, and economics. Requires synthesis of pharmaceutical industry, trade policy, and climate data sources."
+
+  - question_id: "E02"
+    question: |
+      The global water scarcity crisis is accelerating, with groundwater depletion identified 
+      as a critical threat. Construct a comprehensive analysis that addresses:
+      
+      1. The current rate and geographic distribution of groundwater depletion globally 
+         (cite specific 2024 studies on aquifer decline rates)
+      2. How agricultural water use (approximately 70% of global freshwater) connects to 
+         aquifer depletion and food security risks
+      3. The causal relationship between climate change and accelerating groundwater loss
+      4. Documented cases of water-related conflict in 2024 (quantify incidents and regions)
+      5. The economic and displacement impacts projected through 2030
+      6. Specific examples of cities facing critical water shortages in 2024-2025
+      
+      Your analysis should trace the causal chain from groundwater depletion through 
+      agricultural impacts to societal consequences.
+    difficulty: easy
+    category: trend_synthesis
+    paradigms_tested:
+      - agile_sprints
+      - quality_gates
+      - neuro_symbolic
+    required_facts:
+      - "36% of 1,693 aquifers worldwide experienced significant decline 2000-2022"
+      - "Depletion accelerating in 51% of aquifers with long-term data"
+      - "Ogallala Aquifer in Kansas dropped over 1 foot in 2024"
+      - "Agriculture accounts for 70-72% of global freshwater withdrawals"
+      - "By 2025, 1.8 billion people expected in absolute water scarcity"
+      - "50% of world population could face water scarcity by 2025"
+      - "420 water-related conflict incidents documented globally in 2024 (record high)"
+      - "Groundwater depletion accounts for 68% of water lost in drying regions"
+      - "77% of coastal aquifers projected to face saltwater intrusion by 2100"
+      - "Climate change reducing precipitation and increasing irrigation demands"
+      - "Mexico City, Johannesburg, Sicily cities faced critical shortages in 2024"
+      - "24-700 million people could be displaced by 2030 due to water crisis"
+      - "Demand for agricultural water projected to increase 60% by 2025"
+    acceptable_structures:
+      - "Causal chain: climate → aquifer depletion → agriculture → conflict/displacement"
+      - "Geographic analysis with regional case studies and quantified impacts"
+    common_errors:
+      - "Treating water scarcity as solely a climate or solely a governance issue"
+      - "Missing the feedback loop between agriculture and aquifer depletion"
+      - "Not quantifying conflict incidents or displacement projections"
+      - "Failing to connect urban water crises to broader groundwater trends"
+    minimum_sources: 12
+    notes: "Tests synthesis of hydrology, climate science, agriculture, and conflict studies. Requires connecting geological data to human impacts."
+
+  - question_id: "E03"
+    question: |
+      Critical minerals and rare earth elements (REEs) are essential for electric vehicles, 
+      semiconductors, and renewable energy. Analyze the current state of global critical 
+      mineral supply chains by addressing:
+      
+      1. China's dominance in REE processing (quantify market shares for different minerals)
+      2. Specific export restrictions China implemented in 2024-2025 and their targets
+      3. The bottleneck in processing capacity vs. mining capacity (explain why mining 
+         diversification doesn't solve the problem)
+      4. Western response initiatives (EU Critical Raw Materials Act, US Defense Production 
+         Act usage, Minerals Security Partnership) with specific funding figures
+      5. The impact on EV and semiconductor supply chains
+      6. Why recycling currently contributes minimally despite its potential
+      
+      Include specific minerals (lithium, cobalt, graphite, dysprosium, terbium, gallium, 
+      germanium) and their unique supply chain vulnerabilities.
+    difficulty: easy
+    category: comparative_analysis
+    paradigms_tested:
+      - quality_gates
+      - agile_sprints
+      - iterative_refinement
+    required_facts:
+      - "China refines approximately 90% of world's rare earths"
+      - "China holds leading refining positions for 19 of 20 strategic minerals"
+      - "Average 70% market share for lithium, cobalt, graphite, REE refining"
+      - "China processes nearly 100% of heavy REEs (dysprosium, terbium)"
+      - "December 2024: China restricted gallium, germanium, antimony exports"
+      - "Early 2025: restrictions on tungsten, tellurium, bismuth, indium, molybdenum, 7 heavy REEs"
+      - "Full REE separation operations cost $500M-$1.5B"
+      - "EU Critical Raw Materials Act: 10% domestic mining, 40% processing, 25% recycling by 2030"
+      - "EU allocated €22.5B in March 2025 for 47 critical mineral projects"
+      - "US Defense Production Act: $500M investment in refining, targeting secure supply by 2027"
+      - "Minerals Security Partnership: 14 members, 40 projects identified by November 2025"
+      - "Only about 1% of REEs globally recycled due to high costs and infrastructure gaps"
+      - "Lithium demand grew nearly 30% in 2024"
+      - "Dysprosium, terbium crucial for EV motor permanent magnets"
+    acceptable_structures:
+      - "Supply chain analysis: mining → processing → end products with bottleneck identification"
+      - "Comparative analysis of national/regional responses with effectiveness assessment"
+    common_errors:
+      - "Conflating mining diversity with processing diversity"
+      - "Missing the distinction between light and heavy rare earths"
+      - "Not explaining why recycling hasn't scaled despite economic incentives"
+      - "Treating all critical minerals as homogeneous without specific analysis"
+    minimum_sources: 14
+    notes: "Tests understanding of industrial supply chains, geopolitics, and technology dependencies. Requires synthesis of geology, economics, and policy sources."
+
+  - question_id: "E04"
+    question: |
+      Global shipping experienced major disruptions in 2024-2025 from multiple simultaneous 
+      crises. Construct a comprehensive analysis of how these disruptions cascaded through 
+      the global economy:
+      
+      1. The Red Sea crisis: causes, scope of rerouting, impact on transit times and costs
+      2. The Panama Canal drought: water level restrictions, transit reductions, and 
+         which trade routes were most affected
+      3. How these disruptions interacted to compound global freight impacts
+      4. Quantify the impact on freight rates (compare pre-crisis to peak and current)
+      5. Which industries were most severely affected and why
+      6. The downstream effects on port congestion globally
+      7. What the 2025 outlook suggests and why disruptions may persist
+      
+      Trace the causal chains from the initial disruptions through to consumer and 
+      industrial impacts.
+    difficulty: easy
+    category: multi_hop_causal_chain
+    paradigms_tested:
+      - gnwt_router
+      - neuro_symbolic
+      - quality_gates
+    required_facts:
+      - "Red Sea attacks since late 2023 forced Cape of Good Hope rerouting"
+      - "Rerouting adds 10-14 days transit time"
+      - "12% of global trade typically passes through Suez Canal"
+      - "66% reduction in Suez Canal ship crossings due to reroutings"
+      - "Panama Canal transits reduced from 36 to 18 daily by February 2024"
+      - "Panama Canal handles 6% of global trade, 40% of US container traffic"
+      - "Carriers paid up to $4M to expedite Panama Canal passage in 2024"
+      - "Asia-North Europe rates: $4,000-$5,000/FEU via Cape vs. $1,500-$2,000 pre-crisis"
+      - "Global ocean freight rates 140% higher than 2019"
+      - "Ports like Durban, Ningbo-Zhoushan, Chittagong averaged 9-10 day delays"
+      - "December 2025: 12.5-day average departure delays on Far East-Europe routes"
+      - "Automotive, electronics, agriculture industries faced production halts"
+      - "Red Sea diversions expected to continue throughout 2025"
+    acceptable_structures:
+      - "Dual crisis analysis with interaction effects and cascading impacts"
+      - "Timeline of disruptions with quantified effects on rates, times, industries"
+    common_errors:
+      - "Treating Red Sea and Panama disruptions as isolated events"
+      - "Not quantifying the compound effect of simultaneous disruptions"
+      - "Missing the connection between shipping delays and port congestion"
+      - "Failing to trace impacts through to specific end industries"
+    minimum_sources: 12
+    notes: "Tests multi-factor analysis of logistics disruptions. Requires synthesis of maritime, trade, and industrial data."
+
+  - question_id: "E05"
+    question: |
+      Antimicrobial resistance (AMR) is considered one of the greatest global health threats. 
+      Analyze the current state of the AMR crisis and the global response by addressing:
+      
+      1. Projected mortality from bacterial AMR (deaths directly attributable and associated, 
+         current and projected to 2050)
+      2. Why the antibiotic development pipeline is described as "fragile and failing" 
+         (quantify agents in development, company participation, innovation levels)
+      3. The economic implications of AMR (healthcare costs, GDP losses)
+      4. The status of the WHO Global Action Plan and 2024 UN Political Declaration targets
+      5. Why pharmaceutical economics work against antibiotic development
+      6. The demographic groups most affected and why (age-based analysis)
+      
+      Connect the biological, economic, and policy dimensions of the AMR crisis.
+    difficulty: easy
+    category: comprehensive_enumeration
+    paradigms_tested:
+      - agile_sprints
+      - quality_gates
+      - iterative_refinement
+    required_facts:
+      - "39 million deaths projected from bacterial AMR between 2025-2050 (3 deaths/minute)"
+      - "Deaths directly attributable to AMR: 1.14M in 2021 → projected 1.91M in 2050 (67.5% increase)"
+      - "Deaths associated with AMR: 4.71M in 2021 → projected 8.22M in 2050 (74.5% increase)"
+      - "90 antibacterials in clinical pipeline as of October 2025 (down from 97)"
+      - "Most large pharma companies have minimal antibiotic development"
+      - "AMR deaths among 70+ increased 80% between 1990-2021; projected +146% by 2050"
+      - "World Bank: AMR could add $1T in healthcare costs by 2050"
+      - "GDP losses of $1T-$3.4T annually by 2030"
+      - "2024 UN Political Declaration targets: 10% reduction in AMR deaths by 2030"
+      - "Target: 80% of countries with GLASS pathogen testing capacity"
+      - "Target: 70% of antibiotics used should be WHO 'Access' category"
+      - "Updated WHO GAP draft expected by 2026"
+      - "Antibiotic development less profitable than drugs for chronic conditions"
+      - "South Asia and sub-Saharan Africa projected to bear highest AMR burden"
+    acceptable_structures:
+      - "Multi-dimensional analysis: biological threat → economic impact → policy response"
+      - "Mortality projections with breakdown by cause, age, and region"
+    common_errors:
+      - "Conflating deaths 'attributable to' vs. 'associated with' AMR"
+      - "Not explaining the market failure in antibiotic development"
+      - "Missing the demographic dimension (age, geographic disparities)"
+      - "Treating policy targets without assessing likelihood of achievement"
+    minimum_sources: 12
+    notes: "Tests synthesis of epidemiology, health economics, and global health governance. Requires connecting biological data to policy and economic analysis."
+
+  # -------------------------------------------------------------------------
+  # MEDIUM TIER
+  # -------------------------------------------------------------------------
+
+  - question_id: "M01"
+    question: |
+      The US electric grid faces a "perfect storm" of challenges in 2024-2025. Develop a 
+      comprehensive analysis that traces the interconnected factors threatening grid 
+      reliability:
+      
+      1. The age and condition of existing grid infrastructure (when was it built, what 
+         components are at risk)
+      2. The unprecedented surge in electricity demand, particularly from data centers and 
+         AI (quantify projected growth, share of consumption)
+      3. The challenges of integrating variable renewable energy sources at scale
+      4. The gap between generation retirements and new capacity coming online
+      5. Regional variations in blackout risk (identify most vulnerable areas)
+      6. Current modernization efforts and their adequacy
+      
+      Analyze why these factors are converging simultaneously and assess whether current 
+      responses are sufficient to prevent increased blackout risk.
+    difficulty: medium
+    category: causal_investigation
+    paradigms_tested:
+      - gnwt_router
+      - quality_gates
+      - neuro_symbolic
+    required_facts:
+      - "Much US grid infrastructure dates to 1960s-1970s, operating beyond intended lifespan"
+      - "Data center electricity demand projected to increase 350% between 2020-2030"
+      - "Data centers could consume 4-12% of US electricity by 2030"
+      - "Utility companies nearly doubled US electricity growth projections in 2024"
+      - "PJM capacity market prices rose ninefold in December 2024 due to data center/crypto demand"
+      - "Peak summer demand forecast to rise 122 GW in next decade"
+      - "Generation retirements could reach 115 GW by 2034"
+      - "Long interconnection queues for renewable projects"
+      - "Renewable intermittency requires grid upgrades not yet complete"
+      - "Upper Midwest, Texas, New England, Mid-Atlantic identified as vulnerable regions"
+      - "Over half of North America faces potential electricity supply shortage"
+      - "Infrastructure Investment and Jobs Act funding for grid improvements"
+      - "DOE identified transmission corridors for federal financing"
+      - "Solar and battery projects not connecting fast enough to replace retiring generation"
+    acceptable_structures:
+      - "Multi-factor convergence analysis with regional case studies"
+      - "Demand-supply gap analysis with timeline of emerging risks"
+    common_errors:
+      - "Treating data center demand and renewable integration as separate issues"
+      - "Not quantifying the gap between retirements and new capacity"
+      - "Missing the regional variation in vulnerability"
+      - "Assuming modernization funding is sufficient without gap analysis"
+    minimum_sources: 14
+    notes: "Tests understanding of energy systems, infrastructure, and technology transitions. Requires synthesis of utility, policy, and technology sources."
+
+  - question_id: "M02"
+    question: |
+      Global biodiversity is experiencing what scientists call the "sixth mass extinction." 
+      Analyze the current state of the biodiversity crisis and its economic and societal 
+      implications by addressing:
+      
+      1. Quantify the decline in wildlife populations (cite the 2024 WWF Living Planet Report)
+      2. Identify ecosystems that have reached or are approaching tipping points 
+         (coral reefs, Amazon rainforest)
+      3. Analyze the 62% loss of commercial honeybee colonies in 2024-2025 and its 
+         implications for agriculture
+      4. Calculate the economic costs of biodiversity inaction ($10-25 trillion annually)
+      5. Assess the outcomes of COP16 in Cali (2024) and Rome (2025) including financing 
+         commitments
+      6. Explain the causal chain from biodiversity loss to food security risks
+      
+      Connect the ecological data to economic and policy dimensions.
+    difficulty: medium
+    category: trend_synthesis
+    paradigms_tested:
+      - agile_sprints
+      - iterative_refinement
+      - neuro_symbolic
+    required_facts:
+      - "73% average decline in wildlife populations over 50 years (1970-2020) per WWF 2024"
+      - "Over 500 land animal species on brink of extinction within 20 years"
+      - "Approximately 1 million species currently threatened with extinction"
+      - "Coral reefs globally passed 'point of no return' per 2025 Global Tipping Points Report"
+      - "Amazon rainforest at risk of large-scale collapse"
+      - "62% loss of commercial beehives in US between June 2024 and February 2025 (record)"
+      - "Pollinators crucial for almonds, apples, blueberries production"
+      - "Inaction costs $10-25 trillion annually (near US GDP)"
+      - "Delaying action 10 years could double intervention costs"
+      - "COP16 agreed on $200B annually by 2030 for biodiversity"
+      - "$20B annually in international flows targeted by 2025"
+      - "85% of most endangered species threatened by agricultural expansion"
+      - "IPBES Transformative Change Report released late 2024"
+      - "Varroa mites, pesticides, monoculture, habitat loss driving pollinator decline"
+    acceptable_structures:
+      - "Ecological-economic-policy nexus analysis"
+      - "Tipping point assessment with cascading consequence analysis"
+    common_errors:
+      - "Treating biodiversity loss as purely environmental without economic dimension"
+      - "Missing the connection between pollinator decline and food security"
+      - "Not distinguishing between COP16 commitments and implementation reality"
+      - "Failing to connect agricultural practices to species extinction"
+    minimum_sources: 14
+    notes: "Tests synthesis of ecology, economics, and international environmental policy. Requires connecting scientific assessments to economic valuations."
+
+  - question_id: "M03"
+    question: |
+      The global housing affordability crisis has reached unprecedented levels in 2024-2025. 
+      Construct a comprehensive causal analysis that examines:
+      
+      1. The decline in homeownership rates across major economies (quantify for US, Europe)
+      2. How construction cost increases since COVID have contributed to affordability problems
+      3. The role of interest rate policies in reducing purchasing power
+      4. How zoning regulations and land use policies restrict housing supply
+      5. The contradictions between urban density policies (greenbelts, growth boundaries) 
+         and housing affordability
+      6. Why interest rate cuts may have limited effect on affordability
+      
+      Identify which factors are structural vs. cyclical and assess the likelihood of 
+      improvement without policy intervention.
+    difficulty: medium
+    category: causal_investigation
+    paradigms_tested:
+      - gnwt_router
+      - iterative_refinement
+      - quality_gates
+    required_facts:
+      - "US homeownership rate dropped to 65.1% in Q1 2025 (lowest since Q1 2020)"
+      - "Ownership decline particularly acute among under-35 households"
+      - "Construction costs rose substantially post-COVID, outpacing general inflation"
+      - "Labor shortages in construction driving up wages and delaying projects"
+      - "Material costs increased due to supply chain disruptions and tariffs"
+      - "Elevated interest rates increased monthly mortgage payments, reduced purchasing power"
+      - "Single-family-only zoning, minimum lot sizes, height restrictions limit housing supply"
+      - "Zoning regulations curb supply amid rising demand, driving up prices"
+      - "Urban growth boundaries and greenbelts restricted land supply"
+      - "Interest rate cuts may have limited impact if home prices continue rising"
+      - "Higher rates discourage existing homeowners from selling, tightening supply"
+      - "Rapid urbanization increased demand in cities"
+      - "Some states exploring zoning reforms for higher-density construction"
+    acceptable_structures:
+      - "Multi-factor causal model distinguishing structural vs. cyclical factors"
+      - "Policy analysis identifying intervention points and their likely effectiveness"
+    common_errors:
+      - "Attributing crisis solely to interest rates without supply-side analysis"
+      - "Not distinguishing between policies that help vs. harm affordability"
+      - "Missing the feedback loop between rates, selling behavior, and supply"
+      - "Treating urban density policies as uniformly positive or negative"
+    minimum_sources: 12
+    notes: "Tests understanding of housing economics, urban policy, and interest rate effects. Requires synthesis of real estate, macroeconomics, and planning sources."
+
+  - question_id: "M04"
+    question: |
+      Global food security deteriorated in 2024-2025 despite stable commodity markets. 
+      Analyze this apparent paradox by examining:
+      
+      1. The current scale of acute food insecurity (number of people affected, trends)
+      2. The impact of the Russia-Ukraine war on grain exports and fertilizer availability
+      3. How fertilizer price volatility affects agricultural production, particularly in 
+         developing countries
+      4. The role of climate extremes in 2024 harvest disruptions
+      5. Why commodity market stability doesn't translate to food security
+      6. The famine conditions confirmed in Sudan and Gaza and their causes
+      7. The projected impact of humanitarian funding cuts in 2025
+      
+      Trace the causal chains from global markets to food access at the household level.
+    difficulty: medium
+    category: contradiction_resolution
+    paradigms_tested:
+      - quality_gates
+      - iterative_refinement
+      - gnwt_router
+    required_facts:
+      - "295+ million people affected by acute food insecurity in 2024 (5% increase from 2023)"
+      - "Sixth consecutive year of rising acute food insecurity"
+      - "231 million people projected to face high food insecurity in 2025"
+      - "Ukraine grain exports forecast at 40M metric tons for 2024/25"
+      - "Worst case: Ukraine exports could fall to 35M metric tons in 2025/26"
+      - "Ukrainian grain harvest 2025 estimated 10% lower (51M vs 56.7M tons in 2024)"
+      - "World Bank Fertilizer Price Index surged 15% in first half of 2025"
+      - "Nitrogen fertilizers (urea) projected to increase additional 15% in 2025"
+      - "FAO projects stable commodity markets with adequate supplies for 2024/25"
+      - "Climate extremes (drought, heatwaves) disrupted harvests in key regions"
+      - "18 countries pushed into crisis by climate, affecting 96M people"
+      - "Famine confirmed in Sudan in 2024, projected to continue into 2025"
+      - "Persistent famine risk in Gaza if military operations continue"
+      - "Humanitarian food funding potentially cut by 45% in 2025"
+    acceptable_structures:
+      - "Paradox resolution: global markets vs. access/distribution analysis"
+      - "Multi-level analysis: global → regional → household food security"
+    common_errors:
+      - "Conflating global commodity supply with food access"
+      - "Not distinguishing between production, distribution, and access barriers"
+      - "Missing the fertilizer price → production cost → affordability chain"
+      - "Treating climate impacts as isolated from conflict-driven food insecurity"
+    minimum_sources: 14
+    notes: "Tests understanding of food systems economics and the gap between markets and access. Requires synthesis of agricultural, humanitarian, and climate sources."
+
+  - question_id: "M05"
+    question: |
+      Space debris in Low Earth Orbit (LEO) poses an escalating threat to space 
+      sustainability. Analyze the current state of the orbital debris problem by addressing:
+      
+      1. Quantify the current debris population (number of objects by size category)
+      2. The rate of growth of the satellite population and projected trajectories
+      3. The role of mega-constellations (particularly Starlink) in LEO congestion
+      4. The number and trend of collision avoidance maneuvers being performed
+      5. The plausibility of Kessler Syndrome based on current trajectories
+      6. Current regulatory and technological responses (ESA Zero Debris, 5-year deorbit rules)
+      7. Major fragmentation events in 2024 and their contributions to debris population
+      
+      Assess whether current mitigation measures are sufficient to prevent cascading 
+      collision scenarios.
+    difficulty: medium
+    category: trend_synthesis
+    paradigms_tested:
+      - agile_sprints
+      - quality_gates
+      - neuro_symbolic
+    required_facts:
+      - "Over 1.2 million fragments larger than 1cm orbiting Earth (ESA 2025)"
+      - "50,000+ objects exceeding 10cm, each capable of catastrophic damage"
+      - "Total satellites surpassed 12,000 in early 2024; projected 30,000 by 2030"
+      - "Starlink: 7,600+ satellites by May 2025, majority of active LEO satellites"
+      - "SpaceX plans up to 42,000 Starlink satellites"
+      - "Starlink collision avoidance maneuvers: 25,000 (Dec 2022-May 2023) → 50,000 (2023-24) → 144,404 (2024-25)"
+      - "Without collision avoidance, catastrophic collision could occur within 2.8 days (June 2024)"
+      - "Some experts say congested LEO regions already at unstable tipping point"
+      - "Chinese Long March 6A explosion in 2024 added thousands of debris objects"
+      - "ESA Zero Debris Approach: halt new debris creation by 2030"
+      - "Regulators mandating 5-year post-mission deorbiting (vs. 25-year previous standard)"
+      - "Space debris monitoring market projected $1.32B in 2025"
+      - "Starlink plans to lower satellites from 550km to 480km in 2026"
+      - "Scientists advocating UN include orbital protection in sustainable development goals"
+    acceptable_structures:
+      - "Trend analysis with growth projections and tipping point assessment"
+      - "Mitigation effectiveness analysis against debris growth rate"
+    common_errors:
+      - "Treating satellite numbers as equivalent to debris risk"
+      - "Not distinguishing between collision probability and cascading scenarios"
+      - "Missing the role of fragmentation events in debris creation"
+      - "Assuming regulatory measures are being implemented as stated"
+    minimum_sources: 12
+    notes: "Tests synthesis of aerospace technology, space policy, and risk analysis. Requires connecting orbital mechanics to regulatory and commercial dynamics."
+
+  # -------------------------------------------------------------------------
+  # HARD TIER
+  # -------------------------------------------------------------------------
+
+  - question_id: "H01"
+    question: |
+      The convergence of synthetic biology and artificial intelligence creates unprecedented 
+      biosecurity challenges. Construct a comprehensive threat and governance assessment 
+      that examines:
+      
+      1. How AI is accelerating DNA design and protein engineering capabilities
+      2. The specific biosecurity risks emerging from AI-biology convergence (novel toxins, 
+         pathogen modification)
+      3. Why current DNA synthesis screening may be inadequate against AI-designed sequences
+      4. The regulatory landscape as of 2025 (US May 2025 policies on DURC and synthesis 
+         screening, BIOSECURE Act, international coordination)
+      5. The role of biofoundries in both pandemic preparedness and potential risks
+      6. Gaps between the pace of technological advancement and governance development
+      
+      Evaluate whether current governance frameworks are adequate for emerging AIxBio risks.
+    difficulty: hard
+    category: causal_investigation
+    paradigms_tested:
+      - gnwt_router
+      - neuro_symbolic
+      - quality_gates
+    required_facts:
+      - "AI accelerating drug discovery, genetic engineering, biomanufacturing"
+      - "AI can enable non-scientists to design novel toxins or modify pathogens"
+      - "Generative protein design tools can create harmful functions that evade screening"
+      - "Current biosecurity screening relies on similarity to known threats - AI designs may bypass"
+      - "May 2025: US federal funding requires DNA synthesis screening attestation"
+      - "May 2025 Executive Order mandates verifiable screening with tamper-proof records"
+      - "IBBIS launched February 2024 developing international DNA synthesis screening mechanism"
+      - "UK introduced synthetic nucleic acid screening guidance October 2024"
+      - "US codifying dual-use research frameworks into binding regulations for May 2025"
+      - "BIOSECURE Act gaining momentum in 2025 after 2024 stall"
+      - "National Security Commission on Emerging Biotechnology report expected December 2024"
+      - "AI companies announced intent to establish AIxBio redlines ahead of February 2025 Paris Summit"
+      - "Biofoundries critical for pandemic response but also potential risks"
+      - "Concerns about voluntary measures' transparency and enforceability"
+    acceptable_structures:
+      - "Threat-governance gap analysis with technology timeline vs. policy timeline"
+      - "Multi-stakeholder assessment: labs, companies, regulators, international bodies"
+    common_errors:
+      - "Treating biosecurity as only about intentional misuse (missing accidents)"
+      - "Not distinguishing between screening types and their limitations"
+      - "Assuming regulatory announcements equal implementation"
+      - "Missing the international coordination challenge"
+    minimum_sources: 15
+    notes: "Tests synthesis of biotechnology, AI, national security, and governance. Requires understanding of both technical and policy dimensions."
+
+  - question_id: "H02"
+    question: |
+      Central Bank Digital Currencies (CBDCs) represent a potential transformation of the 
+      global monetary system. Develop a comprehensive analysis of the current CBDC landscape 
+      that addresses:
+      
+      1. The current status of major CBDC pilots worldwide (China, EU, India, Brazil, 
+         Singapore, Switzerland, Japan) with specific milestones
+      2. The distinction between wholesale and retail CBDC approaches and why wholesale 
+         is more advanced
+      3. Cross-border payment initiatives (mBridge, Project Agorá) and their progress
+      4. The privacy concerns and technological solutions being explored (PETs, 
+         Zero-Knowledge Proofs, tiered privacy)
+      5. Whether CBDCs could challenge dollar dominance (cite Federal Reserve research)
+      6. Financial inclusion potential vs. surveillance risks trade-offs
+      7. The countries that have already launched retail CBDCs
+      
+      Assess the trajectory of global CBDC development and its implications for the 
+      international monetary system.
+    difficulty: hard
+    category: comparative_analysis
+    paradigms_tested:
+      - quality_gates
+      - agile_sprints
+      - iterative_refinement
+    required_facts:
+      - "90%+ of central banks engaged in CBDC work per BIS survey"
+      - "Wholesale CBDCs at more advanced exploration stage than retail"
+      - "China e-CNY: largest retail CBDC pilot, 25+ cities, substantial transaction volume"
+      - "ECB digital euro: preparation phase year 2, rulebook by October 2025"
+      - "India e-Rupee: wholesale and retail pilots expanded, circulation growing"
+      - "Brazil DREX: blockchain-based, general launch planned 2025"
+      - "Singapore SGD Testnet announced November 2024 for wholesale tokenization"
+      - "Switzerland Project Helvetia III in production, extended to mid-2027"
+      - "Japan pilot since April 2023, privacy/performance results May 2025"
+      - "mBridge: Thailand, UAE, China, Saudi Arabia multi-currency wholesale platform"
+      - "Project Agorá: BIS September 2024, tokenized deposits with wholesale CBDC"
+      - "Fed February 2024 paper: US CBDC would have no material impact on dollar dominance"
+      - "Privacy concerns: every CBDC transaction theoretically visible to government"
+      - "Jamaica, Bahamas, Zimbabwe, Nigeria have launched retail CBDCs"
+      - "Privacy-enhancing technologies being explored for CBDC design"
+    acceptable_structures:
+      - "Comparative pilot analysis with wholesale vs. retail distinction"
+      - "Multi-dimensional assessment: technology, privacy, geopolitics, inclusion"
+    common_errors:
+      - "Treating all CBDC projects as comparable despite different designs"
+      - "Not distinguishing between pilot announcements and actual transaction volumes"
+      - "Overstating or understating dollar dominance implications"
+      - "Missing the privacy-inclusion tension"
+    minimum_sources: 16
+    notes: "Tests understanding of monetary systems, digital technology, and geopolitics. Requires synthesis of central bank, technology, and policy sources."
+
+  - question_id: "H03"
+    question: |
+      Multiple interconnected crises are threatening global system resilience. Develop an 
+      analysis that traces the connections between:
+      
+      1. Critical mineral supply chain concentration and its impact on energy transition
+      2. Electric grid vulnerability and data center energy demand
+      3. Climate impacts on both water availability and agricultural production
+      4. Pharmaceutical supply chain concentration and health system resilience
+      5. Global shipping disruptions and their cascading effects on all above systems
+      
+      Identify at least three feedback loops where crises in one domain amplify risks in 
+      others. Assess which connections create the greatest systemic risk and what 
+      interventions could break negative feedback cycles.
+    difficulty: hard
+    category: multi_hop_causal_chain
+    paradigms_tested:
+      - gnwt_router
+      - neuro_symbolic
+      - iterative_refinement
+    required_facts:
+      - "Critical mineral processing concentration: 70% in China for key minerals"
+      - "EV and grid storage dependent on concentrated mineral supply chains"
+      - "Data centers could consume 4-12% of US electricity by 2030"
+      - "Grid modernization required for both renewables and demand growth"
+      - "Climate change accelerating groundwater depletion and agricultural stress"
+      - "70% of freshwater used for agriculture"
+      - "API manufacturing concentrated 65-70% in China/India"
+      - "Climate events (hurricanes) disrupted pharmaceutical production"
+      - "Red Sea crisis adding 10-14 days to shipping routes"
+      - "Panama Canal drought restricting transit capacity"
+      - "Shipping disruptions affect pharmaceutical, mineral, and food supply chains"
+      - "Feedback loop 1: Energy transition → mineral demand → supply chain risk → delayed transition"
+      - "Feedback loop 2: Climate impacts → agriculture → water conflict → regional instability"
+      - "Feedback loop 3: Shipping disruption → supply shortages → inflation → reduced investment"
+    acceptable_structures:
+      - "System map with feedback loop identification and risk quantification"
+      - "Cross-domain causal chain analysis with intervention point identification"
+    common_errors:
+      - "Treating each crisis domain in isolation"
+      - "Missing the feedback loops that create systemic risk"
+      - "Not distinguishing between linear chains and amplifying cycles"
+      - "Failing to identify actionable intervention points"
+    minimum_sources: 18
+    notes: "Tests systems thinking and cross-domain synthesis. Requires connecting research across 5+ distinct domains into coherent analysis."
+
+  - question_id: "H04"
+    question: |
+      The antimicrobial resistance crisis and pharmaceutical supply chain vulnerabilities 
+      create a compounding threat to global health security. Analyze the interconnections:
+      
+      1. How API manufacturing concentration affects antibiotic availability
+      2. Why sterile injectables (including many antibiotics) are particularly vulnerable
+      3. The economic disincentives for antibiotic development vs. the public health need
+      4. How drug shortages affect clinical decision-making and resistance patterns
+      5. The geographic mismatch between AMR burden (South Asia, sub-Saharan Africa) and 
+         pharmaceutical manufacturing capacity
+      6. What policy interventions could address both supply chain and development pipeline 
+         challenges
+      
+      Evaluate whether current policies address the interconnected nature of these 
+      challenges or treat them as separate problems.
+    difficulty: hard
+    category: contradiction_resolution
+    paradigms_tested:
+      - quality_gates
+      - iterative_refinement
+      - gnwt_router
+    required_facts:
+      - "65-70% of APIs sourced from China and India"
+      - "Sterile injectables particularly vulnerable due to complex manufacturing and low margins"
+      - "30% of drug shortages linked to raw material/API scarcity"
+      - "90 antibacterials in clinical pipeline (down from 97)"
+      - "Most large pharma companies have minimal antibiotic development"
+      - "Antibiotic development less profitable than chronic disease drugs"
+      - "AMR deaths highest in South Asia and sub-Saharan Africa"
+      - "Manufacturing concentrated in regions with better margins"
+      - "Drug shortages force clinicians to use broader-spectrum antibiotics"
+      - "Broader-spectrum use accelerates resistance development"
+      - "89% of drug shortages in 2024 carried over from 2023"
+      - "Economic incentives (subscription models) proposed but not widely implemented"
+      - "WHO GAP and UN Political Declaration address AMR but not supply chain"
+      - "Supply chain policies don't address antibiotic market failure"
+    acceptable_structures:
+      - "Interconnected problem analysis with policy gap identification"
+      - "Causal chain from manufacturing → availability → clinical practice → resistance"
+    common_errors:
+      - "Treating AMR and drug shortages as unrelated problems"
+      - "Not connecting supply chain economics to resistance patterns"
+      - "Missing the geographic mismatch between burden and capacity"
+      - "Assuming current policies address interconnected challenges"
+    minimum_sources: 14
+    notes: "Tests ability to connect health economics, supply chain, and clinical practice. Requires synthesis across typically siloed domains."
+
+  - question_id: "H05"
+    question: |
+      The energy transition faces a trilemma of competing priorities: decarbonization speed, 
+      grid reliability, and energy affordability. Analyze how this trilemma is playing out 
+      in 2024-2025 by examining:
+      
+      1. The rate of renewable energy deployment vs. fossil fuel retirement
+      2. Grid integration challenges for variable renewable sources
+      3. Critical mineral supply chain constraints on energy transition speed
+      4. The impact of data center growth on both electricity demand and grid stability
+      5. Regional variations in how the trilemma is being managed (EU, US, China)
+      6. Whether current policy approaches can resolve the trilemma or are making trade-offs
+      
+      Identify where the three objectives conflict and assess which trade-offs are being 
+      made implicitly or explicitly.
+    difficulty: hard
+    category: comparative_analysis
+    paradigms_tested:
+      - gnwt_router
+      - quality_gates
+      - neuro_symbolic
+    required_facts:
+      - "Solar and battery projects not connecting to grid fast enough to replace retirements"
+      - "Generation retirements could reach 115 GW by 2034"
+      - "Long interconnection queues for renewable projects"
+      - "China controls 70%+ refining for key energy transition minerals"
+      - "EU Critical Raw Materials Act sets domestic processing targets"
+      - "Data center demand projected to increase 350% between 2020-2030"
+      - "PJM increased demand met by coal and gas, raising emissions"
+      - "Renewable intermittency requires additional grid infrastructure"
+      - "Battery storage expanding but insufficient to fully address intermittency"
+      - "EU focusing on both renewable deployment and strategic mineral autonomy"
+      - "US using Defense Production Act for mineral supply security"
+      - "China's mineral export restrictions complicate Western transition plans"
+      - "Peak summer demand forecast to rise 122 GW in next decade"
+      - "Over half of North America faces potential electricity supply shortage"
+    acceptable_structures:
+      - "Trilemma framework analysis with regional comparison"
+      - "Trade-off identification with policy effectiveness assessment"
+    common_errors:
+      - "Assuming the three objectives can be simultaneously optimized"
+      - "Not identifying the specific trade-offs being made"
+      - "Missing the mineral supply chain constraint on transition speed"
+      - "Treating all regions as facing identical trilemma dynamics"
+    minimum_sources: 16
+    notes: "Tests understanding of energy systems, policy trade-offs, and geopolitics. Requires synthesis of energy, minerals, and technology sources."
+
+  # -------------------------------------------------------------------------
+  # ADVERSARIAL TIER
+  # -------------------------------------------------------------------------
+
+  - question_id: "A01"
+    question: |
+      The "obvious" solution to pharmaceutical supply chain concentration is to diversify 
+      manufacturing to Western countries. However, despite years of policy efforts and 
+      significant investment, API manufacturing remains concentrated in China and India. 
+      
+      Explain this persistence by analyzing:
+      
+      1. The economic factors that made concentration rational in the first place
+      2. Why simply investing in Western capacity doesn't shift market share
+      3. The regulatory and environmental costs of pharmaceutical manufacturing
+      4. The time horizon for new capacity vs. the urgency of current shortages
+      5. Whether recent policy initiatives (reshoring incentives, strategic reserves) 
+         address the underlying economics
+      6. What would actually be required to sustainably diversify supply chains
+      
+      Critically evaluate whether current policies are addressing root causes or symptoms.
+    difficulty: adversarial
+    category: contradiction_resolution
+    paradigms_tested:
+      - quality_gates
+      - iterative_refinement
+      - gnwt_router
+    required_facts:
+      - "API concentration developed over decades due to lower labor and construction costs"
+      - "US has only 9% of active API DMFs; EU countries 17%"
+      - "New facilities require years to build and validate"
+      - "Generic drug margins too low to support higher-cost manufacturing"
+      - "Environmental regulations stricter in Western countries"
+      - "China's share of DMF filings increased 63% between 2021-2023 despite diversification efforts"
+      - "270 active drug shortages in US as of April 2025 - policy hasn't prevented"
+      - "40%+ of shortages started in 2022 or earlier - predating recent policies"
+      - "Reshoring requires not just factories but entire supply ecosystems"
+      - "Strategic reserves address shortage symptoms but not production concentration"
+      - "Low profitability of essential medicines discourages private investment"
+      - "Government subsidies haven't changed fundamental economics"
+    acceptable_structures:
+      - "Root cause analysis showing why policies address symptoms not causes"
+      - "Economic analysis of why market forces perpetuate concentration"
+    common_errors:
+      - "Accepting reshoring narrative without examining results"
+      - "Missing the ecosystem requirement beyond individual facilities"
+      - "Not connecting generic drug economics to manufacturing location"
+      - "Assuming policy announcements equal effective implementation"
+    minimum_sources: 12
+    adversarial_trap: "The obvious answer (just build Western factories) ignores the underlying economic dynamics that caused concentration"
+    notes: "Tests critical evaluation of policy effectiveness against economic realities."
+
+  - question_id: "A02"
+    question: |
+      CBDCs are often promoted as tools for financial inclusion. However, the populations 
+      most in need of financial inclusion often lack the technology infrastructure, digital 
+      literacy, and trust in government that CBDCs require.
+      
+      Analyze this paradox by examining:
+      
+      1. The specific requirements for CBDC usage (internet connectivity, smartphones, 
+         digital literacy)
+      2. How these requirements compare to existing barriers to financial inclusion
+      3. Evidence from countries that have launched retail CBDCs (Nigeria e-Naira adoption)
+      4. Why privacy concerns may be particularly acute for vulnerable populations
+      5. Whether offline CBDC functionality actually addresses access barriers
+      6. Alternative approaches that might achieve inclusion more effectively
+      
+      Evaluate whether CBDCs solve financial inclusion problems or potentially create new 
+      forms of exclusion.
+    difficulty: adversarial
+    category: causal_investigation
+    paradigms_tested:
+      - gnwt_router
+      - quality_gates
+      - iterative_refinement
+    required_facts:
+      - "CBDCs require technology infrastructure many excluded populations lack"
+      - "Digital literacy required for CBDC usage"
+      - "Nigeria e-Naira adoption has been limited despite launch"
+      - "Every CBDC transaction potentially visible to government"
+      - "Vulnerable populations may have most to fear from surveillance"
+      - "Offline functionality being explored but adds complexity"
+      - "Tiered privacy approaches may not protect most vulnerable users"
+      - "Mobile money has achieved inclusion in some regions without CBDC"
+      - "Privacy-enhancing technologies add implementation complexity"
+      - "Low-trust environments may resist government-issued digital currency"
+      - "CBDCs could enable programmable restrictions on spending"
+      - "Financial inclusion barriers often structural, not technological"
+    acceptable_structures:
+      - "Paradox analysis: intended beneficiaries vs. practical requirements"
+      - "Comparative assessment: CBDC vs. alternative inclusion approaches"
+    common_errors:
+      - "Accepting financial inclusion benefits without examining evidence"
+      - "Missing the surveillance concerns specific to vulnerable populations"
+      - "Not comparing CBDC to proven alternatives like mobile money"
+      - "Assuming offline functionality solves all access barriers"
+    minimum_sources: 12
+    adversarial_trap: "The conventional framing presents CBDCs as pro-inclusion, but evidence suggests they may not reach intended beneficiaries"
+    notes: "Tests critical evaluation of claimed benefits against implementation reality."
+
+  - question_id: "A03"
+    question: |
+      The ESA's "Zero Debris" approach and stricter deorbiting regulations are presented 
+      as solutions to orbital sustainability. However, the debris population continues 
+      growing faster than remediation efforts. 
+      
+      Analyze this governance failure by examining:
+      
+      1. The gap between regulatory standards and actual debris generation rates
+      2. Why voluntary commitments from satellite operators may be insufficient
+      3. The "free rider" problem in orbital space governance
+      4. The limitations of current debris tracking and collision avoidance
+      5. Whether commercial mega-constellation operators' self-regulation is adequate
+      6. The challenges of international coordination for a global commons
+      
+      Evaluate whether current governance approaches can prevent Kessler Syndrome or are 
+      inadequate against the scale of the problem.
+    difficulty: adversarial
+    category: causal_investigation
+    paradigms_tested:
+      - gnwt_router
+      - quality_gates
+      - neuro_symbolic
+    required_facts:
+      - "Debris amount outpacing natural atmospheric re-entry"
+      - "Total satellites projected to triple from 12,000 to 30,000 by 2030"
+      - "Starlink satellite fleet growing: 7,600+ by May 2025"
+      - "Collision avoidance maneuvers increased from 25,000 to 144,404 over 30 months"
+      - "Long March 6A explosion in 2024 added thousands of debris objects"
+      - "ESA Zero Debris target 2030: halt new debris - compliance unclear"
+      - "5-year deorbit rules not universally enforced"
+      - "Some experts say congested LEO regions already at tipping point"
+      - "Without collision avoidance, catastrophic collision within 2.8 days"
+      - "No international enforcement mechanism for orbital debris"
+      - "Debris monitoring market growing but cleanup minimal compared to generation"
+      - "Starlink self-imposes stricter collision thresholds but fleet keeps growing"
+    acceptable_structures:
+      - "Governance gap analysis: problem scale vs. response capacity"
+      - "Free rider problem analysis with enforcement challenge assessment"
+    common_errors:
+      - "Accepting regulatory targets as equivalent to outcomes"
+      - "Missing the scale mismatch between debris generation and remediation"
+      - "Not identifying the collective action problem in orbital governance"
+      - "Assuming commercial self-regulation equals adequate protection"
+    minimum_sources: 12
+    adversarial_trap: "Policy announcements create impression of action while fundamental problem accelerates"
+    notes: "Tests critical evaluation of governance claims against outcome data."
+
+  - question_id: "A04"
+    question: |
+      Global food commodity markets are projected to be stable in 2024/25 with adequate 
+      supplies. Yet acute food insecurity is at record levels and rising. This apparent 
+      contradiction reveals fundamental assumptions about food security that merit 
+      critical examination.
+      
+      Analyze this disconnect by examining:
+      
+      1. The difference between global aggregate supply and regional/local access
+      2. How commodity price stability can coexist with food insecurity increases
+      3. The role of conflict and displacement in creating food insecurity beyond 
+         production capacity
+      4. Why famine conditions exist in places where food is physically available nearby
+      5. The limitations of market-based approaches to food security
+      6. Whether humanitarian response models are adequate for structural food 
+         insecurity
+      
+      Critically evaluate the assumption that food security is primarily a production 
+      and price problem.
+    difficulty: adversarial
+    category: contradiction_resolution
+    paradigms_tested:
+      - quality_gates
+      - iterative_refinement
+      - gnwt_router
+    required_facts:
+      - "FAO projects stable commodity markets with adequate supplies for 2024/25"
+      - "295+ million people in acute food insecurity in 2024 (record)"
+      - "Sixth consecutive year of rising acute food insecurity"
+      - "Famine confirmed in Sudan 2024 despite food available in region"
+      - "Famine risk in Gaza despite proximity to food supplies"
+      - "Conflict is primary driver of worst food crises"
+      - "45% potential cut in humanitarian food funding for 2025"
+      - "Food insecurity concentrated in conflict and displacement contexts"
+      - "Commodity prices affect affordability but not access barriers"
+      - "Climate extremes affected 96 million people but markets still stable"
+      - "231 million projected in high food insecurity in 2025"
+      - "World cereal stocks projected at record 897 million tons"
+    acceptable_structures:
+      - "Paradox resolution: markets vs. access distinction"
+      - "Multi-level analysis: global production vs. local availability vs. affordability vs. access"
+    common_errors:
+      - "Treating food security as equivalent to food production"
+      - "Missing the access dimension in conflict contexts"
+      - "Assuming stable prices mean stable food security"
+      - "Not distinguishing between chronic and acute food insecurity"
+    minimum_sources: 12
+    adversarial_trap: "The framing of 'stable markets' creates false reassurance while access-based food insecurity worsens"
+    notes: "Tests critical evaluation of market-based food security assumptions."
+
+  - question_id: "A05"
+    question: |
+      AI companies have published frontier safety frameworks, joined international 
+      commitments, and increased safety research. Yet evidence suggests some companies 
+      have simultaneously weakened specific safety commitments over time.
+      
+      Resolve this apparent contradiction by examining:
+      
+      1. The proliferation of safety frameworks (quantify companies with published 
+         frameworks over time)
+      2. Specific examples of safety commitments being weakened or removed
+      3. The "conditional commitment" problem and its implications
+      4. Whether framework proliferation represents genuine safety progress or 
+         strategic positioning
+      5. How the competitive dynamics of AI development affect safety commitment 
+         credibility
+      6. What would distinguish genuine safety commitment from performative measures
+      
+      Assess whether the AI safety governance landscape is improving or deteriorating, 
+      using specific evidence rather than stated intentions.
+    difficulty: adversarial
+    category: contradiction_resolution
+    paradigms_tested:
+      - quality_gates
+      - iterative_refinement
+      - gnwt_router
+    required_facts:
+      - "12 companies now have published frontier safety frameworks (up from ~3 in 2023)"
+      - "Seoul Summit 2024 brought formalization to more companies"
+      - "DeepMind, OpenAI added 'escape clauses' allowing safety reduction if competitors don't match"
+      - "OpenAI removed persuasion capabilities from Preparedness Framework April 2025"
+      - "OpenAI removed third-party audit commitment without noting in changelog"
+      - "Anthropic reduced some CBRN and cybersecurity safeguards"
+      - "Anthropic no longer commits to pre-defining ASL-N+1 evaluations"
+      - "FLI grades: No company above D on existential safety"
+      - "Conditional commitments create 'race to the bottom' dynamic"
+      - "Dario Amodei: 25% chance things go 'really, really badly'"
+      - "Sam Altman: P(doom) estimate of 2%"
+      - "Gap widening between top 3 labs and rest on safety"
+      - "SaferAI ratings: Google and Anthropic scored lower than October 2024"
+    acceptable_structures:
+      - "Framework proliferation vs. commitment strength analysis"
+      - "Stated intentions vs. observed behavior comparison"
+    common_errors:
+      - "Counting frameworks without examining content"
+      - "Missing the conditional commitment mechanism"
+      - "Not tracking changes to frameworks over time"
+      - "Treating all safety measures as equivalent"
+    minimum_sources: 14
+    adversarial_trap: "More frameworks exist but commitment strength within frameworks has weakened - quantity vs. quality distinction"
+    notes: "Tests ability to distinguish between stated commitments and actual governance effectiveness."
+
+# =============================================================================
+# EVALUATION CRITERIA
+# =============================================================================
+
+evaluation_criteria:
+  per_question_scoring:
+    fact_recall:
+      description: "Percentage of required_facts correctly identified and stated"
+      weight: 0.30
+      scoring: "Count facts present / total required_facts"
+    
+    structure_quality:
+      description: "Whether response follows one of acceptable_structures"
+      weight: 0.15
+      scoring: "Binary (1 if matches any acceptable structure, 0.5 if partial, 0 otherwise)"
+    
+    error_avoidance:
+      description: "Whether response avoids common_errors"
+      weight: 0.25
+      scoring: "1 - (errors_present / total_common_errors)"
+    
+    source_diversity:
+      description: "Number of distinct sources cited relative to minimum_sources"
+      weight: 0.10
+      scoring: "min(sources_cited / minimum_sources, 1.0)"
+    
+    coherence:
+      description: "Logical flow and synthesis quality"
+      weight: 0.10
+      scoring: "LLM-as-judge on 1-5 scale, normalized to 0-1"
+    
+    insight_generation:
+      description: "Novel connections or insights beyond fact compilation"
+      weight: 0.10
+      scoring: "LLM-as-judge on 1-5 scale, normalized to 0-1"
+
+  composite_score:
+    formula: "0.30*fact_recall + 0.15*structure + 0.25*error_avoidance + 0.10*sources + 0.10*coherence + 0.10*insight"
+    passing_threshold: 0.60
+    excellent_threshold: 0.80
+
+  difficulty_adjusted_expectations:
+    easy: 
+      expected_composite: 0.70
+      fact_recall_floor: 0.65
+      minimum_sources_expected: 10
+    medium:
+      expected_composite: 0.55
+      fact_recall_floor: 0.50
+      minimum_sources_expected: 12
+    hard:
+      expected_composite: 0.40
+      fact_recall_floor: 0.40
+      minimum_sources_expected: 14
+    adversarial:
+      expected_composite: 0.25
+      fact_recall_floor: 0.30
+      minimum_sources_expected: 12
+      special_note: "Success on adversarial questions requires identifying and avoiding the 'obvious but incomplete' answer"
+
+# =============================================================================
+# PARADIGM COVERAGE MATRIX
+# =============================================================================
+
+paradigm_coverage:
+  agile_sprints:
+    questions: ["E01", "E02", "E03", "E05", "M02", "M05", "H02"]
+    description: "Iterative data gathering, completeness checking across many sources"
+  
+  quality_gates:
+    questions: ["E02", "E03", "E04", "E05", "M01", "M04", "M05", "H01", "H02", "H04", "H05", "A01", "A02", "A03", "A04", "A05"]
+    description: "Source verification, quality checkpoints, cross-validation"
+  
+  iterative_refinement:
+    questions: ["E03", "M02", "M03", "M04", "H02", "H03", "H04", "A01", "A02", "A04", "A05"]
+    description: "Generate-critique-revise loops for complex synthesis"
+  
+  gnwt_router:
+    questions: ["E01", "E04", "M01", "M03", "M04", "H01", "H03", "H04", "H05", "A01", "A02", "A03", "A04"]
+    description: "Dynamic specialist routing, mid-task pivots across domains"
+  
+  neuro_symbolic:
+    questions: ["E01", "E02", "M01", "M02", "M05", "H01", "H03", "H05", "A03"]
+    description: "Entity tracking, relationship mapping, multi-hop causal chains"
+
+# =============================================================================
+# TOPIC DIVERSITY MATRIX
+# =============================================================================
+
+topic_coverage:
+  pharmaceuticals_health:
+    questions: ["E01", "E05", "H04"]
+    domains: ["API supply chains", "drug shortages", "antimicrobial resistance", "health economics"]
+  
+  water_climate:
+    questions: ["E02", "M04"]
+    domains: ["groundwater depletion", "aquifer decline", "water conflict", "agricultural water use", "climate extremes"]
+  
+  critical_minerals:
+    questions: ["E03", "H05"]
+    domains: ["rare earth elements", "processing concentration", "geopolitics", "energy transition"]
+  
+  shipping_logistics:
+    questions: ["E04"]
+    domains: ["Red Sea crisis", "Panama Canal", "freight rates", "port congestion"]
+  
+  energy_grid:
+    questions: ["M01", "H05"]
+    domains: ["grid modernization", "data centers", "renewable integration", "blackout risk"]
+  
+  biodiversity_environment:
+    questions: ["M02"]
+    domains: ["wildlife decline", "ecosystem tipping points", "pollinator loss", "COP16"]
+  
+  housing_urban:
+    questions: ["M03"]
+    domains: ["affordability", "construction costs", "zoning", "interest rates"]
+  
+  food_security:
+    questions: ["M04", "A04"]
+    domains: ["grain exports", "fertilizer prices", "famine", "commodity markets"]
+  
+  space_technology:
+    questions: ["M05", "A03"]
+    domains: ["orbital debris", "Kessler syndrome", "satellite constellations", "space governance"]
+  
+  biosecurity_synbio:
+    questions: ["H01"]
+    domains: ["synthetic biology", "AI convergence", "DNA synthesis", "dual-use research"]
+  
+  digital_finance:
+    questions: ["H02", "A02"]
+    domains: ["CBDCs", "cross-border payments", "financial inclusion", "privacy"]
+  
+  systems_integration:
+    questions: ["H03"]
+    domains: ["interconnected crises", "feedback loops", "systemic risk"]
+  
+  ai_governance:
+    questions: ["A05"]
+    domains: ["AI safety frameworks", "commitment tracking", "competitive dynamics"]
+
+# =============================================================================
+# NOTES FOR HUMAN VERIFICATION
+# =============================================================================
+
+verification_notes: |
+  DESIGN PHILOSOPHY CHANGES FROM V1.0:
+  1. All questions now require 10-20+ sources for comprehensive answers
+  2. Topics diversified: no more than 2 questions per major domain
+  3. Multi-step reasoning required in BOTH information gathering AND synthesis
+  4. Questions designed to be unsolvable by simple LLM + single web search
+  5. Adversarial questions include explicit "traps" that test for deeper analysis
+  
+  SILVER DATASET CONSTRUCTION:
+  1. All required_facts extracted from web search results conducted January 2026
+  2. Dates and figures should be verified against primary sources
+  3. Some facts may become outdated - verify against current sources before finalizing
+  
+  KEY VERIFICATION POINTS:
+  - Pharmaceutical data: FDA, WHO, BloombergNEF, industry reports
+  - Water data: NASA, UCSB groundwater studies, FAO, World Bank
+  - Critical minerals: IEA, USGS, EU Commission, Chinese trade announcements
+  - Shipping: Xeneta, Freightos, port authority reports
+  - AMR: WHO, Lancet, GRAM Project
+  - Energy: NERC, EIA, utility reports
+  - Biodiversity: WWF, IPBES, COP16 outcomes
+  - CBDCs: BIS, ECB, central bank announcements
+  - Space: ESA, FCC, SpaceX disclosures
+  - Biosecurity: Carnegie Endowment, White House OSTP
+  
+  CONTAMINATION CHECK:
+  Before using this dataset, test each question against Gemini Flash or GPT-4o-mini 
+  with a single web search call. Questions that can be answered correctly with one 
+  search should have their complexity increased.
+  
+  TEMPORAL SENSITIVITY:
+  This dataset was created January 2026. Questions reference current events from 
+  2024-2025. Regular updates needed for longitudinal tracking. Some adversarial 
+  questions specifically test whether agents track policy changes over time.
