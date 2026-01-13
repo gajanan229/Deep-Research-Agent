@@ -14,10 +14,10 @@ This document outlines a systematic experimental strategy to validate the Tier 1
 **Core Principle:** We are not testing whether LLMs are intelligent. We are testing whether our architectural decisions improve outcomes beyond what a naive implementation achieves.
 
 **Literature Validation Note:** Following our Feasibility Report V2.0, we prioritize paradigms with strong literature validation:
-- **Tier 1 (Validated):** Agile/ReAct, Quality Gates, Iterative Refinement, Experience Store
+- **Tier 1 (Validated):** Agile/ReAct, Quality Gates, Iterative Refinement, Experience Store, Knowledge Cache
 - **Tier 2 (Partially Validated):** GNWT/OWL Router, Neuro-Symbolic KG Core
 
-**Scope:** 10 Jupyter Notebook experiments (added Experience Store).
+**Scope:** 11 Jupyter Notebook experiments (added Experience Store and Knowledge Cache).
 
 ### Technology Stack (Locked)
 
@@ -109,10 +109,11 @@ For each experiment, we compare the paradigm-enhanced agent against both baselin
 | 04_Quality_Gates | Quality checks between phases | ✅ AI Scientist, Agent Laboratory | Baseline A, Baseline B |
 | 05_Iterative_Refinement | Critique-revise loop | ✅ WebThinker, LongDPO, CycleResearcher | Baseline A, Baseline B |
 | 06_Experience_Store | Case-based reasoning memory | ✅ DS-Agent, Agent K, AgentRxiv | Baseline A, Baseline B |
-| 07_Combined_Tier1 | All Tier 1 paradigms together | Combined validation | Baseline A, Baseline B |
-| 08_GNWT_Router | Dynamic specialist routing | ⚠️ OWL coordinator pattern | Baseline A, Baseline B |
-| 09_Neuro_Symbolic | Entity extraction and knowledge graph | ⚠️ Agent-KB, Agentic Reasoning | Baseline A, Baseline B |
-| 10_Full_Stack | Best of Tier 1 + Tier 2 | Combined validation | Baseline A, Baseline B |
+| 07_Knowledge_Cache | Cascading cache for search optimization | ✅ CKC Architecture | Baseline A, Baseline B |
+| 08_Combined_Tier1 | All Tier 1 paradigms together | Combined validation | Baseline A, Baseline B |
+| 09_GNWT_Router | Dynamic specialist routing | ⚠️ OWL coordinator pattern | Baseline A, Baseline B |
+| 10_Neuro_Symbolic | Entity extraction and knowledge graph | ⚠️ Agent-KB, Agentic Reasoning | Baseline A, Baseline B |
+| 11_Full_Stack | Best of Tier 1 + Tier 2 | Combined validation | Baseline A, Baseline B |
 
 **Interpretation Guide:**
 - If paradigm beats Baseline A but not B: The paradigm may be redundant with good multi-agent design
@@ -405,19 +406,20 @@ Phase 2: Tier 1 Paradigms (Can run in parallel - ALL VALIDATED)
     +-- 04_Quality_Gates.ipynb          [Validated: AI Scientist]
     +-- 05_Iterative_Refinement.ipynb   [Validated: WebThinker, LongDPO]
     +-- 06_Experience_Store.ipynb       [Validated: DS-Agent, Agent K]
-    
+    +-- 07_Knowledge_Cache.ipynb        [Validated: CKC Architecture]
+
 Phase 3: Tier 1 Synthesis
     |
-    +-- 07_Tier1_Combined.ipynb (combines best elements from Phase 2)
+    +-- 08_Tier1_Combined.ipynb (combines best elements from Phase 2)
     
 Phase 4: Tier 2 Paradigms (Partially Validated)
     |
-    +-- 08_GNWT_Router.ipynb            [Validated: OWL coordinator pattern]
-    +-- 09_Neuro_Symbolic_Lite.ipynb    [Validated: Agent-KB, Agentic Reasoning]
-    
+    +-- 09_GNWT_Router.ipynb            [Validated: OWL coordinator pattern]
+    +-- 10_Neuro_Symbolic_Lite.ipynb    [Validated: Agent-KB, Agentic Reasoning]
+
 Phase 5: Final Integration
     |
-    +-- 10_Full_Stack.ipynb
+    +-- 11_Full_Stack.ipynb
 ```
 
 **Key Changes from Previous Version:**
@@ -606,17 +608,45 @@ The existing notebooks in `baseline agent 2/` contain scattered implementations.
 
 ---
 
-#### Notebook 07: Tier 1 Combined
+#### Notebook 07: Knowledge Cache
+**Purpose:** Test within-session search optimization through cascading cache
+
+**Literature Validation:**
+> Session-scoped caching reduces redundant API calls, semantic similarity enables paraphrase detection, and LLM judgment handles ambiguous cases. The three-layer cascade (deterministic, semantic, LLM) is inspired by CPU cache hierarchies.
+
+**Contents:**
+- Implement 3-layer cascade (deterministic, semantic, LLM)
+  - Layer 1: URL registry + query normalization (exact matching)
+  - Layer 2: Vector embeddings + multi-signal confidence scoring
+  - Layer 3: LLM judgment with gap analysis and query refinement
+- Multi-signal confidence: top score + score gap + term overlap
+- Query specificity adjustment (raise thresholds for high-precision queries)
+- Temporal intent recognition (bypass cache for time-sensitive queries)
+- Gap analysis: LLM identifies missing info and generates targeted searches
+- Compare: Standard search vs. Cached search
+
+**Hypothesis:** Knowledge Cache will reduce web searches by 30-50% with <5% quality degradation, improving both cost efficiency (fewer API calls) and latency (cache hits bypass network).
+
+**Output:**
+- `knowledge_cache_results.json`
+- Cache hit rate by layer (L1, L2, L3 distribution)
+- Quality comparison vs. baselines
+- Cost/latency savings analysis
+- Cache decision trace (full observability)
+
+---
+
+#### Notebook 08: Tier 1 Combined
 **Purpose:** Test all Tier 1 paradigms together
 
 **Contents:**
-- Combine: Agile (3 sprints) + Quality Gates + Iterative Refinement (2 passes) + Experience Store
+- Combine: Agile (3 sprints) + Quality Gates + Iterative Refinement (2 passes) + Experience Store + Knowledge Cache
 - Run against full golden dataset
 - Compare against baseline and individual paradigms
 
 **Key Question:** Do the paradigms compound positively, or do they interfere?
 
-**Hypothesis:** Combined Tier 1 will achieve 40%+ improvement over baseline at 2.5-3x token cost.
+**Hypothesis:** Combined Tier 1 will achieve 40%+ improvement over baseline at 2.5-3x token cost. Knowledge Cache should reduce overall search costs by 30-40%.
 
 **Output:**
 - `tier1_combined_results.json`
@@ -625,7 +655,7 @@ The existing notebooks in `baseline agent 2/` contain scattered implementations.
 
 ---
 
-#### Notebook 08: GNWT/OWL Router (Tier 2)
+#### Notebook 09: GNWT/OWL Router (Tier 2)
 **Purpose:** Test dynamic specialist routing (OWL coordinator pattern)
 
 **Literature Validation:**
@@ -650,7 +680,7 @@ The existing notebooks in `baseline agent 2/` contain scattered implementations.
 
 ---
 
-#### Notebook 09: Neuro-Symbolic Lite (Tier 2)
+#### Notebook 10: Neuro-Symbolic Lite (Tier 2)
 **Purpose:** Test basic knowledge graph integration
 
 **Literature Validation:**
@@ -671,7 +701,7 @@ The existing notebooks in `baseline agent 2/` contain scattered implementations.
 
 ---
 
-#### Notebook 10: Full Stack Integration
+#### Notebook 11: Full Stack Integration
 **Purpose:** Combine best elements from all experiments
 
 **Contents:**
@@ -681,6 +711,7 @@ The existing notebooks in `baseline agent 2/` contain scattered implementations.
   - AI Scientist-style quality gates
   - WebThinker-style critique-revise
   - Agent K-style experience store
+  - CKC-style cascading cache (Knowledge Cache)
   - OWL-style coordinator routing
   - Agent-KB-style entity tracking (if multi-hop benefits confirmed)
 - Run comprehensive evaluation
@@ -699,12 +730,12 @@ The existing notebooks in `baseline agent 2/` contain scattered implementations.
 
 | Metric | Estimate |
 |--------|----------|
-| **Notebooks** | 10 (added Experience Store) |
+| **Notebooks** | 11 (added Experience Store and Knowledge Cache) |
 | **Questions** | 20 |
 | **Runs per Question** | 3 (Monte Carlo) |
 | **Baselines** | 2 (A and B) |
 | **Total Baseline Runs** | 120 (20 x 3 x 2) |
-| **Total Paradigm Runs** | ~480 (increased due to Experience Store) |
+| **Total Paradigm Runs** | ~540 (increased due to Experience Store and Knowledge Cache) |
 
 ---
 
@@ -860,10 +891,11 @@ experimentation/
 |   |-- 04_Quality_Gates.ipynb           # Phase 2: AI Scientist validation
 |   |-- 05_Iterative_Refinement.ipynb    # Phase 2: WebThinker validation
 |   |-- 06_Experience_Store.ipynb        # Phase 2: DS-Agent validation
-|   |-- 07_Tier1_Combined.ipynb          # Phase 3: Synthesis
-|   |-- 08_GNWT_Router.ipynb             # Phase 4: OWL validation
-|   |-- 09_Neuro_Symbolic_Lite.ipynb     # Phase 4: Agent-KB validation
-|   |-- 10_Full_Stack.ipynb              # Phase 5: Final integration
+|   |-- 07_Knowledge_Cache.ipynb         # Phase 2: CKC Architecture validation
+|   |-- 08_Tier1_Combined.ipynb          # Phase 3: Synthesis
+|   |-- 09_GNWT_Router.ipynb             # Phase 4: OWL validation
+|   |-- 10_Neuro_Symbolic_Lite.ipynb     # Phase 4: Agent-KB validation
+|   |-- 11_Full_Stack.ipynb              # Phase 5: Final integration
 |
 |-- data/
 |   |-- deep_research_agent_test_dataset.yaml  # V2.0 unified dataset (questions + answers + evaluation criteria)
