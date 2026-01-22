@@ -1,0 +1,205 @@
+# Phase 3 Tier 1 Combined Agent Test Dataset
+# 5 Complex Research Queries for Comparative Evaluation
+# Created: January 21, 2026
+# 
+# Design Principles:
+# - Each question requires 10-20+ sources minimum
+# - Multi-step reasoning in BOTH information gathering AND synthesis
+# - Cross-domain synthesis requirements
+# - Causal chain analysis across multiple domains
+# - Insight generation beyond fact compilation
+# - Trend synthesis across diverse sources
+# - NOT answerable by a single web search or Google AI Overview
+
+questions:
+  - id: Q1
+    category: market_intelligence
+    title: "Pharmaceutical M&A Strategic Analysis"
+    question: |
+      The pharmaceutical and biotech industries are projected to see accelerated M&A activity 
+      in 2025-2026, driven by the looming patent cliff ($200-250 billion in branded medicines 
+      going off-patent by 2032) and declining R&D productivity.
+      
+      Analyze the interconnected dynamics shaping pharmaceutical M&A strategy by examining:
+      
+      1. How are the top 5 acquirers (Merck, J&J, Novartis, Sanofi, Bristol Myers Squibb) 
+         differentiating their acquisition strategies across therapeutic areas (oncology vs 
+         cardiometabolic vs CNS vs immunology)?
+      
+      2. What is driving the shift toward late-stage asset acquisitions vs early-stage biotech 
+         deals, and how does this affect deal valuations and risk profiles?
+      
+      3. How are regulatory headwinds (Inflation Reduction Act price negotiations, biosimilar 
+         policies) affecting acquirer calculations of future profitability?
+      
+      4. What role is AI-driven drug discovery playing in making biotech targets more attractive, 
+         and which specific AI-biotech partnerships have led to acquisition interest?
+      
+      5. How do current interest rate expectations for 2026 affect deal financing strategies 
+         and the appetite for large vs bolt-on acquisitions?
+      
+      Synthesize these factors into a strategic framework for predicting which therapeutic 
+      areas and company profiles will drive the highest M&A premiums in 2026.
+    minimum_sources: 15
+    domains_required:
+      - pharmaceutical_industry
+      - financial_analysis
+      - regulatory_policy
+      - ai_drug_discovery
+      - macroeconomics
+
+  - id: Q2
+    category: technical_scientific_research
+    title: "Renewable Energy Technology Convergence"
+    question: |
+      The utility-scale renewable energy landscape in 2025 is experiencing rapid technological 
+      convergence, with solar, wind, and battery storage increasingly deployed as integrated 
+      systems rather than standalone technologies.
+      
+      Conduct a technical and economic analysis of this convergence by examining:
+      
+      1. How have lithium iron phosphate (LFP) battery cost declines (current installed costs 
+         $180-300/kWh for utility-scale) changed the economic calculus for solar-plus-storage 
+         vs standalone solar deployments across different grid regions?
+      
+      2. What are the technical tradeoffs between 4-hour, 8-hour, and longer-duration storage 
+         configurations for different use cases (peak shaving, renewable firming, grid 
+         arbitrage, seasonal storage)?
+      
+      3. How do capacity factors for onshore wind (30-50%), offshore wind (up to 60%), and 
+         solar (15-25%) affect optimal hybrid configurations in different geographic contexts?
+      
+      4. What role are AI-powered battery management systems and predictive analytics playing 
+         in optimizing storage dispatch and extending battery lifecycle?
+      
+      5. How are agrivoltaics and floating solar affecting land-use calculations and project 
+         economics for utility-scale deployments?
+      
+      Synthesize these technical and economic factors into recommendations for optimal 
+      renewable+storage configurations across different grid contexts and use cases.
+    minimum_sources: 15
+    domains_required:
+      - solar_technology
+      - wind_energy
+      - battery_storage
+      - grid_economics
+      - land_use_policy
+
+  - id: Q3
+    category: professional_specialized
+    title: "Cross-Border CBDC Regulatory Landscape"
+    question: |
+      Central Bank Digital Currencies (CBDCs) are advancing rapidly with over 130 countries 
+      exploring or piloting implementations, yet regulatory frameworks remain fragmented 
+      across jurisdictions.
+      
+      Analyze the emerging regulatory and operational landscape for CBDCs by examining:
+      
+      1. How do the design choices of major CBDC projects (China's e-CNY, EU's digital euro 
+         pilot, US research programs, India's e-rupee) differ in terms of privacy models, 
+         programmability, and cross-border interoperability?
+      
+      2. What are the key regulatory tensions between AML/KYC requirements and privacy 
+         preservation in different CBDC implementations, and how are jurisdictions attempting 
+         to balance these competing objectives?
+      
+      3. How do different CBDC architectures (direct model, two-tier system, hybrid approaches) 
+         affect the role of commercial banks and implications for financial stability?
+      
+      4. What progress has been made on cross-border CBDC interoperability projects (mBridge, 
+         Dunbar, Icebreaker) and what technical and regulatory barriers remain?
+      
+      5. How are existing payment regulations (PSD2 in EU, money transmission laws in US) 
+         being adapted or challenged to accommodate CBDC operations?
+      
+      Synthesize these regulatory developments into a comparative framework showing how 
+      different jurisdictions are approaching CBDC deployment tradeoffs.
+    minimum_sources: 14
+    domains_required:
+      - central_banking
+      - financial_regulation
+      - privacy_law
+      - payments_infrastructure
+      - international_coordination
+
+  - id: Q4
+    category: product_solutions_comparison
+    title: "Enterprise AI Document Processing Solutions"
+    question: |
+      Mid-sized healthcare organizations (500-2000 employees) processing high volumes of 
+      clinical documentation, insurance claims, and regulatory filings face critical decisions 
+      about AI-powered document processing solutions.
+      
+      Compare and analyze the leading solutions for this use case by examining:
+      
+      1. How do the major players (Microsoft Azure AI Document Intelligence, Google Document 
+         AI, AWS Textract + Comprehend Medical, Kofax, ABBYY, Rossum) compare in terms of 
+         healthcare-specific extraction accuracy for clinical notes, lab reports, and 
+         insurance claims?
+      
+      2. What are the HIPAA compliance and BAA (Business Associate Agreement) offerings of 
+         each solution, and how do their data residency and processing location options 
+         affect compliance postures?
+      
+      3. How do pricing models (per-page, per-document, per-character, subscription tiers) 
+         affect total cost of ownership at different processing volumes (10K, 100K, 1M 
+         documents/month)?
+      
+      4. What integration capabilities exist with major healthcare EHR/EMR systems (Epic, 
+         Cerner, MEDITECH) and revenue cycle management platforms?
+      
+      5. How do these solutions handle mixed document types (structured forms, unstructured 
+         clinical narratives, handwritten annotations, scanned images) and what accuracy 
+         tradeoffs exist?
+      
+      Synthesize this comparison into specific recommendations for different organizational 
+      profiles (single-site clinic vs multi-facility system vs payer organization).
+    minimum_sources: 12
+    domains_required:
+      - healthcare_it
+      - ai_document_processing
+      - hipaa_compliance
+      - enterprise_software
+      - healthcare_operations
+
+  - id: Q5
+    category: business_intelligence
+    title: "Climate-Food Security Investment Analysis"
+    question: |
+      Global food security faces paradoxical conditions in 2025-2026: aggregate commodity 
+      supplies appear stable while acute food insecurity affects 318+ million people, with 
+      climate impacts increasingly disrupting agricultural supply chains.
+      
+      Analyze the investment and risk landscape at the intersection of climate and food 
+      security by examining:
+      
+      1. How have recent climate events (droughts in cocoa-producing regions, flooding in 
+         grain belts, shipping disruptions from Red Sea tensions, Panama Canal water levels) 
+         affected agricultural commodity prices, trading patterns, and supply chain resilience?
+      
+      2. What climate-resilient agriculture technologies (drought-resistant crop varieties, 
+         precision irrigation, vertical farming, AI-powered yield prediction) are attracting 
+         private investment, and what is the evidence for their scalability and ROI?
+      
+      3. How are agricultural commodity traders and food companies adjusting their supply 
+         chain strategies (diversified sourcing, strategic reserves, cold chain investments) 
+         in response to climate volatility?
+      
+      4. What policy mechanisms (carbon pricing, agricultural subsidies, food security 
+         reserves, trade restrictions) in major producing and consuming nations are shaping 
+         investment flows and risk profiles?
+      
+      5. How do projections for climate impacts on wheat, rice, maize, and soy yields over 
+         the next decade (7-12% wheat yield decline, 35% rice profitability reduction per 
+         published studies) affect long-term investment theses in agriculture?
+      
+      Synthesize these factors into an investment framework identifying which agricultural 
+      subsectors and geographies present the best risk-adjusted opportunities given climate 
+      trajectories.
+    minimum_sources: 15
+    domains_required:
+      - climate_science
+      - agricultural_economics
+      - supply_chain_management
+      - investment_analysis
+      - food_policy
