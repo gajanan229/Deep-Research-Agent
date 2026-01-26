@@ -1,0 +1,53 @@
+{
+  "run_time": "2026-01-24T03:44:09.821934",
+  "version": "V08-3",
+  "total_elapsed_seconds": 1646.103963,
+  "questions_tested": 5,
+  "results": [
+    {
+      "question": 1,
+      "title": "Pharmaceutical M&A Strategic Analysis",
+      "version": "V08-3",
+      "elapsed_seconds": 1606.881544,
+      "output_chars": 43599,
+      "sources": 223,
+      "status": "success"
+    },
+    {
+      "question": 2,
+      "title": "Renewable Energy Technology Convergence",
+      "version": "V08-3",
+      "elapsed_seconds": 1500.641094,
+      "output_chars": 42372,
+      "sources": 217,
+      "status": "success"
+    },
+    {
+      "question": 3,
+      "title": "Cross-Border CBDC Regulatory Landscape",
+      "version": "V08-3",
+      "elapsed_seconds": 1646.061374,
+      "output_chars": 44767,
+      "sources": 254,
+      "status": "success"
+    },
+    {
+      "question": 4,
+      "title": "Enterprise AI Document Processing Solutions",
+      "version": "V08-3",
+      "elapsed_seconds": 1500.676524,
+      "output_chars": 46469,
+      "sources": 245,
+      "status": "success"
+    },
+    {
+      "question": 5,
+      "title": "Climate-Food Security Investment Analysis",
+      "version": "V08-3",
+      "elapsed_seconds": 1400.831498,
+      "output_chars": 49821,
+      "sources": 310,
+      "status": "success"
+    }
+  ]
+}
