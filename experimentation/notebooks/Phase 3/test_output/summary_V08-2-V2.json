@@ -1,0 +1,26 @@
+{
+  "run_time": "2026-01-27T15:22:33.410941",
+  "version": "V08-2-V2",
+  "total_elapsed_seconds": 4490.05503,
+  "questions_tested": 2,
+  "results": [
+    {
+      "question": 4,
+      "title": "Enterprise AI Document Processing Solutions",
+      "version": "V08-2-V2",
+      "elapsed_seconds": 3654.315269,
+      "output_chars": 37229,
+      "sources": 215,
+      "status": "success"
+    },
+    {
+      "question": 5,
+      "title": "Climate-Food Security Investment Analysis",
+      "version": "V08-2-V2",
+      "elapsed_seconds": 4489.901853,
+      "output_chars": 53045,
+      "sources": 211,
+      "status": "success"
+    }
+  ]
+}
